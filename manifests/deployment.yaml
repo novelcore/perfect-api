@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: perfect-api
+  labels:
+    app: perfect-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: perfect-api
+  template:
+    metadata:
+      labels:
+        app: perfect-api
+    spec:
+      containers:
+        - name: api
+          image: ghcr.io/novelcore/perfect-api:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: API_KEY
+              value: "driveby-test-key-2024"
+          livenessProbe:
+            httpGet:
+              path: /test/health
+              port: 8000
+            initialDelaySeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /test/health
+              port: 8000
+            initialDelaySeconds: 3
+      imagePullSecrets:
+        - name: ghcr-creds
