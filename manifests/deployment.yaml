@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: ghcr.io/novelcore/perfect-api:latest
+          image: ghcr.io/novelcore/perfect-api:1dd5303c7345bb980503cae04746d01d995565f9
           ports:
             - containerPort: 8000
           env:
