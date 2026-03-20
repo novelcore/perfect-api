@@ -40,3 +40,17 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Trigger GitOps update
+        if: success()
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITOPS_PAT }}
+          repository: novelcore/perfect-api-gitops
+          event-type: image-update
+          client-payload: >-
+            {
+              "image": "ghcr.io/novelcore/perfect-api",
+              "tag": "${{ github.sha }}",
+              "short_sha": "${{ github.sha }}"
+            }
